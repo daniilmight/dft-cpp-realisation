@@ -1,27 +1,27 @@
 #include <iostream>
 
-const double pi = 3.14159265358979323846; // Константа pi
+const double pi = 3.14159265358979323846; // РљРѕРЅСЃС‚Р°РЅС‚Р° pi
 
-// Определение класса ComplexNumber для комплексных чисел
+// РћРїСЂРµРґРµР»РµРЅРёРµ РєР»Р°СЃСЃР° ComplexNumber РґР»СЏ РєРѕРјРїР»РµРєСЃРЅС‹С… С‡РёСЃРµР»
 class ComplexNumber {
 private:
     double real;
     double imaginary;
 
 public:
-    // Конструктор
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
     ComplexNumber(double realPart, double imaginaryPart) : real(realPart), imaginary(imaginaryPart) {}
 
-    // Методы для получения реальной и мнимой частей
+    // РњРµС‚РѕРґС‹ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ СЂРµР°Р»СЊРЅРѕР№ Рё РјРЅРёРјРѕР№ С‡Р°СЃС‚РµР№
     double getReal() const { return real; }
     double getImaginary() const { return imaginary; }
 
-    // Оператор сложения
+    // РћРїРµСЂР°С‚РѕСЂ СЃР»РѕР¶РµРЅРёСЏ
     ComplexNumber operator+(const ComplexNumber& other) const {
         return ComplexNumber(real + other.real, imaginary + other.imaginary);
     }
 
-    // Оператор умножения
+    // РћРїРµСЂР°С‚РѕСЂ СѓРјРЅРѕР¶РµРЅРёСЏ
     ComplexNumber operator*(const ComplexNumber& other) const {
         double realPart = real * other.real - imaginary * other.imaginary;
         double imaginaryPart = real * other.imaginary + imaginary * other.real;
@@ -29,40 +29,40 @@ public:
     }
 };
 
-// Функция для вычисления ДПФ
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ Р”РџР¤
 ComplexNumber** discreteFourierTransform(const double* signal, int N) {
-    ComplexNumber** spectrum = new ComplexNumber * [N]; // Результирующий спектр
+    ComplexNumber** spectrum = new ComplexNumber * [N]; // Р РµР·СѓР»СЊС‚РёСЂСѓСЋС‰РёР№ СЃРїРµРєС‚СЂ
 
-    // Проход по каждой частоте в спектре
+    // РџСЂРѕС…РѕРґ РїРѕ РєР°Р¶РґРѕР№ С‡Р°СЃС‚РѕС‚Рµ РІ СЃРїРµРєС‚СЂРµ
     for (int k = 0; k < N; ++k) {
         spectrum[k] = new ComplexNumber(0.0, 0.0);
-        // Проход по каждому элементу входного сигнала для вычисления суммы
+        // РџСЂРѕС…РѕРґ РїРѕ РєР°Р¶РґРѕРјСѓ СЌР»РµРјРµРЅС‚Сѓ РІС…РѕРґРЅРѕРіРѕ СЃРёРіРЅР°Р»Р° РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ СЃСѓРјРјС‹
         for (int n = 0; n < N; ++n) {
-            double angle = -2 * pi * k * n / N; // Угол для текущей частоты k и времени n
-            double cos_val = cos(angle); // Вычисляем косинус угла
-            double sin_val = sin(angle); // Вычисляем синус угла
-            ComplexNumber complex_exp(cos_val, sin_val); // Создаем комплексное число из косинуса и синуса
-            *spectrum[k] = *spectrum[k] + ComplexNumber(signal[n], 0) * complex_exp; // Умножение на экспоненту и суммирование
+            double angle = -2 * pi * k * n / N; // РЈРіРѕР» РґР»СЏ С‚РµРєСѓС‰РµР№ С‡Р°СЃС‚РѕС‚С‹ k Рё РІСЂРµРјРµРЅРё n
+            double cos_val = cos(angle); // Р’С‹С‡РёСЃР»СЏРµРј РєРѕСЃРёРЅСѓСЃ СѓРіР»Р°
+            double sin_val = sin(angle); // Р’С‹С‡РёСЃР»СЏРµРј СЃРёРЅСѓСЃ СѓРіР»Р°
+            ComplexNumber complex_exp(cos_val, sin_val); // РЎРѕР·РґР°РµРј РєРѕРјРїР»РµРєСЃРЅРѕРµ С‡РёСЃР»Рѕ РёР· РєРѕСЃРёРЅСѓСЃР° Рё СЃРёРЅСѓСЃР°
+            *spectrum[k] = *spectrum[k] + ComplexNumber(signal[n], 0) * complex_exp; // РЈРјРЅРѕР¶РµРЅРёРµ РЅР° СЌРєСЃРїРѕРЅРµРЅС‚Сѓ Рё СЃСѓРјРјРёСЂРѕРІР°РЅРёРµ
         }
     }
 
-    return spectrum; // Возвращаем спектр
+    return spectrum; // Р’РѕР·РІСЂР°С‰Р°РµРј СЃРїРµРєС‚СЂ
 }
 
 int main() {
-    const int N = 8; // Длина входного сигнала
-    double signal[N] = { 1, -1.414, 1, -1.414, 1,1.414, -3, 1.414 }; // Входной сигнал
+    const int N = 8; // Р”Р»РёРЅР° РІС…РѕРґРЅРѕРіРѕ СЃРёРіРЅР°Р»Р°
+    double signal[N] = { 1, -1.414, 1, -1.414, 1, 1.414, -3, 1.414 }; // Р’С…РѕРґРЅРѕР№ СЃРёРіРЅР°Р»
 
-    // Вычисляем ДПФ входного сигнала
+    // Р’С‹С‡РёСЃР»СЏРµРј Р”РџР¤ РІС…РѕРґРЅРѕРіРѕ СЃРёРіРЅР°Р»Р°
     ComplexNumber** spectrum = discreteFourierTransform(signal, N);
 
-    // Выводим результаты
-    std::cout << "Спектр сигнала:" << std::endl;
+    // Р’С‹РІРѕРґРёРј СЂРµР·СѓР»СЊС‚Р°С‚С‹
+    std::cout << "РЎРїРµРєС‚СЂ СЃРёРіРЅР°Р»Р°:" << std::endl;
     for (int i = 0; i < N; ++i) {
         std::cout << "S[" << i << "] = " << spectrum[i]->getReal() << " + " << spectrum[i]->getImaginary() << "i" << std::endl;
     }
 
-    // Освобождаем память, выделенную для спектра
+    // РћСЃРІРѕР±РѕР¶РґР°РµРј РїР°РјСЏС‚СЊ, РІС‹РґРµР»РµРЅРЅСѓСЋ РґР»СЏ СЃРїРµРєС‚СЂР°
     for (int i = 0; i < N; ++i) {
         delete spectrum[i];
     }
