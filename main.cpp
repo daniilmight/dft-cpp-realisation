@@ -1,6 +1,6 @@
 #include <iostream>
-
-const double pi = 3.14159265358979323846; // Константа pi
+#include "DM_math.h"
+#include <locale>
 
 // Определение класса ComplexNumber для комплексных чисел
 class ComplexNumber {
@@ -39,8 +39,8 @@ ComplexNumber** discreteFourierTransform(const double* signal, int N) {
         // Проход по каждому элементу входного сигнала для вычисления суммы
         for (int n = 0; n < N; ++n) {
             double angle = -2 * pi * k * n / N; // Угол для текущей частоты k и времени n
-            double cos_val = cos(angle); // Вычисляем косинус угла
-            double sin_val = sin(angle); // Вычисляем синус угла
+            double cos_val = dmCos(angle); // Вычисляем косинус угла
+            double sin_val = dmSin(angle); // Вычисляем синус угла
             ComplexNumber complex_exp(cos_val, sin_val); // Создаем комплексное число из косинуса и синуса
             *spectrum[k] = *spectrum[k] + ComplexNumber(signal[n], 0) * complex_exp; // Умножение на экспоненту и суммирование
         }
@@ -50,6 +50,7 @@ ComplexNumber** discreteFourierTransform(const double* signal, int N) {
 }
 
 int main() {
+    setlocale(LC_ALL, "Russian");
     const int N = 8; // Длина входного сигнала
     double signal[N] = { 1, -1.414, 1, -1.414, 1, 1.414, -3, 1.414 }; // Входной сигнал
 
